@@ -1,5 +1,5 @@
 /* British English locale data for esp32-weather-epd.
- * Copyright (C) 2022-2024  Luke Marzen
+ * Copyright (C) 2022-2026  Luke Marzen
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,6 +68,8 @@ const char *LC_ERA_T_FMT   = "";
 const char *TXT_FEELS_LIKE         = "Feels Like";
 const char *TXT_SUNRISE            = "Sunrise";
 const char *TXT_SUNSET             = "Sunset";
+const char *TXT_MOONRISE           = "Moonrise";
+const char *TXT_MOONSET            = "Moonset";
 const char *TXT_WIND               = "Wind";
 const char *TXT_WIND_GUST          = "Gusts";
 const char *TXT_HUMIDITY           = "Humidity";
@@ -80,6 +82,18 @@ const char *TXT_INDOOR_TEMPERATURE = "Temperature";
 const char *TXT_INDOOR_HUMIDITY    = "Humidity";
 const char *TXT_DEW_POINT          = "Dew Point";
 const char *TXT_TODAY_RAIN         = "Today's Rain";
+const char *TXT_DEWPOINT           = "Dew Point";
+
+// MOON PHASE
+const char *TXT_MOONPHASE       = "Moon Phase";
+const char *TXT_NEW_MOON        = "New Moon";
+const char *TXT_WAXING_CRESCENT = "Waxing Crescent";
+const char *TXT_FIRST_QUARTER   = "First Quarter";
+const char *TXT_WAXING_GIBBOUS  = "Waxing Gibbous";
+const char *TXT_FULL_MOON       = "Full Moon";
+const char *TXT_WANING_GIBBOUS  = "Waning Gibbous";
+const char *TXT_THIRD_QUARTER   = "Last Quarter";
+const char *TXT_WANING_CRESCENT = "Waning Crescent";
 
 // UV INDEX
 const char *TXT_UV_LOW       = "Low";
@@ -238,7 +252,7 @@ const std::vector<String> TERM_HURRICANE =
 const std::vector<String> TERM_DUST =
     {"dust", "sand"};
 const std::vector<String> TERM_STRONG_WIND =
-    {"wind"};
+    {"wind", "monsoon"};
 
 // COMPASS POINT
 const char *COMPASS_POINT_NOTATION[32] = {
