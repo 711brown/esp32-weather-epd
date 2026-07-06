@@ -345,9 +345,15 @@ void drawCurrentConditions(const wx_current_t &current,
   // line dividing top and bottom display areas
   // display.drawLine(0, 196, DISP_WIDTH - 1, 196, GxEPD_BLACK);
 
+  // draw current data of the left panel
+
+    # ifdef POS_SUNRISE
+     drawCurrentSunrise(current);
+    # endif
+
+
+
   // current weather data icons
-  display.drawInvertedBitmap(0, 204 + (48 + 8) * 0,
-                             wi_sunrise_48x48, 48, 48, GxEPD_BLACK);
   display.drawInvertedBitmap(0, 204 + (48 + 8) * 1,
                              wi_strong_wind_48x48, 48, 48, GxEPD_BLACK);
   display.drawInvertedBitmap(0, 204 + (48 + 8) * 2,
@@ -373,7 +379,6 @@ void drawCurrentConditions(const wx_current_t &current,
 
   // current weather data labels
   display.setFont(&FONT_7pt8b);
-  drawString(48, 204 + 10 + (48 + 8) * 0, TXT_SUNRISE, LEFT);
   drawString(48, 204 + 10 + (48 + 8) * 1, TXT_WIND, LEFT);
   drawString(48, 204 + 10 + (48 + 8) * 2, TXT_WBGT, LEFT);
 #ifndef DISP_BW_V1
@@ -394,13 +399,6 @@ void drawCurrentConditions(const wx_current_t &current,
   drawString(170 + 48, 204 + 10 + (48 + 8) * 4, TXT_LIGHTNING, LEFT);
 #endif
 
-  // sunrise
-  display.setFont(&FONT_12pt8b);
-  char timeBuffer[12] = {}; // big enough to accommodate "hh:mm:ss am"
-  time_t ts = current.sunrise;
-  tm *timeInfo = localtime(&ts);
-  _strftime(timeBuffer, sizeof(timeBuffer), TIME_FORMAT, timeInfo);
-  drawString(48, 204 + 17 / 2 + (48 + 8) * 0 + 48 / 2, timeBuffer, LEFT);
 
   // wind
 #ifdef WIND_INDICATOR_ARROW
@@ -624,8 +622,10 @@ drawString(display.getCursorX(), 204 + 17 / 2 + (48 + 8) * 1 + 48 / 2,
   #endif // defined(DISP_BW_V2) || defined(DISP_3C_B) || defined(DISP_7C_F)
 
   // sunset
+  char timeBuffer[12] = {}; // big enough to accommodate "hh:mm:ss am"
   memset(timeBuffer, '\0', sizeof(timeBuffer));
-  ts = current.sunset;
+  time_t ts = current.sunset;
+  tm *timeInfo = localtime(&ts);
   timeInfo = localtime(&ts);
   display.setFont(&FONT_12pt8b);
   _strftime(timeBuffer, sizeof(timeBuffer), TIME_FORMAT, timeInfo);
@@ -1419,3 +1419,58 @@ void drawError(const uint8_t *bitmap_196x196,
   return;
 } // end drawError
 
+# ifdef POS_SUNRISE
+void drawCurrentSunrise(const wx_current_t &current){
+  int PosX = POS_SUNRISE % 2;
+  int PosY = static_cast<int>(POS_SUNRISE / 2);
+
+  display.drawInvertedBitmap(162 * PosX, 204 + (48 + 8) * PosY,
+                             wi_sunrise_48x48, 48, 48, GxEPD_BLACK);
+  display.setFont(&FONT_7pt8b);
+  drawString(48 + (162 * PosX), 204 + 10 + (48 + 8) * PosY, TXT_SUNRISE, LEFT);
+  // sunrise
+  display.setFont(&FONT_12pt8b);
+  char timeBuffer[12] = {}; // big enough to accommodate "hh:mm:ss am"
+  time_t ts = current.sunrise;
+  tm *timeInfo = localtime(&ts);
+  _strftime(timeBuffer, sizeof(timeBuffer), TIME_FORMAT, timeInfo);
+  drawString(48 + (162 * PosX), 204 + 17 / 2 + (48 + 8) * PosY + 48 / 2, timeBuffer, LEFT);
+}
+# endif
+
+# ifdef POS_SUNSET
+void drawCurrentSunset(const wx_current_t &current){}
+#endif
+
+# ifdef POS_WIND
+void drawCurrentWind(const wx_current_t &current){}
+# endif 
+
+
+# ifdef POS_GUST
+void drawCurrentWindGust(const wx_current_t &current){}
+# endif
+
+# ifdef POS_WBGT
+void drawCurrentWbgt(const wx_current_t &current){}
+# endif
+
+# ifdef POS_SOL_RAD
+void drawCurrentSolarRadiation(const wx_current_t &current){}
+# endif
+
+# ifdef POS_RAIN
+void drawCurrentRain(const wx_current_t &current){}
+# endif
+
+# ifdef POS_LTG
+void drawCurrentLightning(const wx_current_t &current){}
+# endif
+
+# ifdef POS_HUMIDITY
+void drawCurrentHumidity(const wx_current_t &current){}
+# endif
+
+#ifdef POS_PRESSURE
+void drawCurrentPressure(const wx_current_t &current){}
+# endif

@@ -218,17 +218,23 @@
 #define POS_SUNRISE     0
 #define POS_SUNSET      1
 #define POS_WIND        2
-#define POS_HUMIDITY    3
-#define POS_UVI         4
-#define POS_PRESSURE    5
-#define POS_AIR_QULITY  6
-#define POS_VISIBILITY  7
-#define POS_INTEMP      8
-#define POS_INHUMIDITY  9
+#define POS_GUST        3
+#define POS_WBGT        4
+#define POS_SOL_RAD     5
+#define POS_HUMIDITY    6
+#define POS_PRESSURE    7
+#define POS_RAIN        8
+#define POS_LTG         9
+// #define POS_HUMIDITY    3
+// #define POS_UVI         4
 // #define POS_MOONRISE    2
 // #define POS_MOONSET     3
 // #define POS_MOONPHASE   4
 // #define POS_DEWPOINT    5
+// #define POS_AIR_QULITY  6
+// #define POS_VISIBILITY  7
+// #define POS_INTEMP      8
+// #define POS_INHUMIDITY  9
 
 
 // Choose the style of moon phase icon you like
