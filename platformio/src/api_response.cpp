@@ -115,7 +115,7 @@ DeserializationError deserializeTempestCall(Stream &json,
     r.hourly[i].wind_speed = hourly["wind_avg"].as<float>();
     r.hourly[i].wind_gust  = hourly["wind_gust"] .as<float>();
     r.hourly[i].wind_deg   = hourly["wind_direction"]  .as<int>();
-    r.hourly[i].pop        = hourly["precip_probablility"]       .as<float>();
+    r.hourly[i].pop        = hourly["precip_probability"]       .as<float>();
     r.hourly[i].rain_1h    = hourly["precip"].as<float>();
     r.hourly[i].weather.description = hourly["conditions"].as<const char *>();
     r.hourly[i].weather.icon        = hourly["icon"]       .as<const char *>();
@@ -135,7 +135,7 @@ DeserializationError deserializeTempestCall(Stream &json,
     r.daily[i].sunset     = daily["sunset"]    .as<int64_t>();
     r.daily[i].temp.min   = daily["air_temp_low"]  .as<float>();
     r.daily[i].temp.max   = daily["air_temp_high"]  .as<float>();
-    r.daily[i].pop        = daily["precip_probablility"].as<float>();
+    r.daily[i].pop        = daily["precip_probability"].as<float>();
     r.daily[i].weather.description = daily["conditions"].as<const char *>();
     r.daily[i].weather.icon        = daily["icon"].as<const char *>();
 

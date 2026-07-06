@@ -38,9 +38,9 @@
 #include "icons/icons_196x196.h"
 
 #ifdef DISP_BW_V2
-  GxEPD2_BW<GxEPD2_750_T7,
-            GxEPD2_750_T7::HEIGHT> display(
-    GxEPD2_750_T7(PIN_EPD_CS,
+  GxEPD2_BW<GxEPD2_750_GDEY075T7,
+            GxEPD2_750_GDEY075T7::HEIGHT> display(
+    GxEPD2_750_GDEY075T7(PIN_EPD_CS,
                   PIN_EPD_DC,
                   PIN_EPD_RST,
                   PIN_EPD_BUSY));
@@ -865,9 +865,10 @@ void drawForecast(const wx_daily_t *daily, tm timeInfo)
       ++num_valid_alerts;
     }
   }
-#if DEBUG_LEVEL >= 1
-  Serial.println("]\n[debug] num_valid_alerts : " + String(num_valid_alerts));
-#endif
+
+Serial.println("]\n[INFO] num_valid_alerts : " + String(num_valid_alerts));
+
+String extra_wwa[num_valid_alerts];
 
   if (num_valid_alerts == 1)
   { // 1 alert
@@ -903,24 +904,39 @@ void drawForecast(const wx_daily_t *daily, tm timeInfo)
   { // 2 alerts
     // adjust max width to for 32x32 icons
     max_w -= 32;
+    // String extra_wwas = "";
 
     display.setFont(&FONT_12pt8b);
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < num_valid_alerts; ++i)
     {
       wx_alerts_t &cur_alert = alerts[alert_indices[i]];
+      if (i < 2) {
+        // Primary space supports 2 WWAs (max i=1)
 
-      display.drawInvertedBitmap(196, (i * 32), getAlertBitmap32(cur_alert),
-                                 32, 32, ACCENT_COLOR);
-      // must be called after getAlertBitmap
-      toTitleCase(cur_alert.event);
+        display.drawInvertedBitmap(196, (i * 32), getAlertBitmap32(cur_alert),
+                                  32, 32, ACCENT_COLOR);
+        // must be called after getAlertBitmap
+        toTitleCase(cur_alert.event);
 
-      drawMultiLnString(196 + 32 + 3, 5 + 17 + (i * 32),
-                        cur_alert.event, LEFT, max_w, 1, 0);
+        drawMultiLnString(196 + 32 + 3, 5 + 17 + (i * 32),
+                          cur_alert.event, LEFT, max_w, 1, 0);
+      } else {
+        toTitleCase(cur_alert.event);
+        extra_wwa[i-2] = cur_alert.event;
+      }
     } // end for-loop
   } // end 2 alerts
   if (num_valid_alerts > 2) {
     display.setFont(&FONT_8pt8b);
-    drawString(00, 20, "WWA Truncated", LEFT, ACCENT_COLOR);
+    String extra_wwa_str = "";
+    for (int i = 0; i < num_valid_alerts-2; i++) {
+      extra_wwa_str = extra_wwa_str + extra_wwa[i];
+      if (i < num_valid_alerts - 2 - 1) {
+        extra_wwa_str = extra_wwa_str + String(", ");
+      }
+    }
+    // Serial.println("Extra WWA: " + extra_wwa_str);
+    drawMultiLnString(3, 12, extra_wwa_str, LEFT, 196, 3, 1, ACCENT_COLOR);
   }
 
   free(ignore_list);

@@ -256,7 +256,7 @@ void setup()
   client.setInsecure();
 #elif defined(USE_HTTPS_WITH_CERT_VERIF)
   WiFiClientSecure client;
-  client.setCACert(cert_Amazon_RSA_2048_M02);
+  client.setCACert(cert_Amazon_RSA_2048_M03);
 #endif
   int rxStatus = getTempestCall(client, tempest_forecast_call);
   if (rxStatus != HTTP_CODE_OK)
