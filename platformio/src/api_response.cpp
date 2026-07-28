@@ -66,7 +66,57 @@ DeserializationError deserializeTempestCall(Stream &json,
 {
   int i;
   JsonDocument doc;
-  DeserializationError error = deserializeJson(doc, json);
+  JsonDocument filter;
+  filter["latitude"] = true;
+  filter["longitude"] = true;
+  filter["timezone"] = true;
+  filter["timezone_offset_minutes"] = true;
+  
+  JsonObject filter_current_conditions = filter["current_conditions"].to<JsonObject>();
+  filter_current_conditions["time"] = true;
+  filter_current_conditions["air_temperature"] = true;
+  filter_current_conditions["feels_like"] = true;
+  filter_current_conditions["sea_level_pressure"] = true;
+  filter_current_conditions["relative_humidity"] = true;
+  filter_current_conditions["dew_point"] = true;
+  filter_current_conditions["solar_radiation"] = true;
+  filter_current_conditions["uv"] = true;
+  filter_current_conditions["wind_avg"] = true;
+  filter_current_conditions["wind_gust"] = true;
+  filter_current_conditions["precip_accum_local_day"] = true;
+  filter_current_conditions["conditions"] = true;
+  filter_current_conditions["icon"] = true;
+  filter_current_conditions["wet_bulb_globe_temperature"] = true;
+  filter_current_conditions["lightning_strike_last_epoch"] = true;
+  
+  JsonObject filter_forecast = filter["forecast"].to<JsonObject>();
+  
+  JsonObject filter_forecast_daily_0 = filter_forecast["daily"].add<JsonObject>();
+  filter_forecast_daily_0["air_temp_high"] = true;
+  filter_forecast_daily_0["sunrise"] = true;
+  filter_forecast_daily_0["sunset"] = true;
+  filter_forecast_daily_0["day_start_local"] = true;
+  filter_forecast_daily_0["air_temp_low"] = true;
+  filter_forecast_daily_0["precip_probability"] = true;
+  filter_forecast_daily_0["conditions"] = true;
+  filter_forecast_daily_0["icon"] = true;
+  
+  JsonObject filter_forecast_hourly_0 = filter_forecast["hourly"].add<JsonObject>();
+  filter_forecast_hourly_0["air_temperature"] = true;
+  filter_forecast_hourly_0["time"] = true;
+  filter_forecast_hourly_0["feels_like"] = true;
+  filter_forecast_hourly_0["sea_level_pressure"] = true;
+  filter_forecast_hourly_0["relative_humidity"] = true;
+  filter_forecast_hourly_0["uv"] = true;
+  filter_forecast_hourly_0["wind_avg"] = true;
+  filter_forecast_hourly_0["wind_guest"] = true;
+  filter_forecast_hourly_0["wind_direction"] = true;
+  filter_forecast_hourly_0["precip_probability"] = true;
+  filter_forecast_hourly_0["precip"] = true;
+  filter_forecast_hourly_0["icon"] = true;
+  filter_forecast_hourly_0["conditions"] = true;
+
+  DeserializationError error = deserializeJson(doc, json, DeserializationOption::Filter(filter));
 #if DEBUG_LEVEL >= 1
   Serial.println("[debug] doc.overflowed() : "
                  + String(doc.overflowed()));
