@@ -54,7 +54,7 @@ const unsigned long WIFI_TIMEOUT = 10000; // ms, WiFi connection timeout.
 //   -1   Connection Refused
 //   -11  Read Timeout
 //   -258 Deserialization Incomplete Input
-const unsigned HTTP_CLIENT_TCP_TIMEOUT = 15000; // ms
+const unsigned HTTP_CLIENT_TCP_TIMEOUT = 20000; // ms
 
 // TEMPEST API
 const String TEMPEST_APIKEY = "";
