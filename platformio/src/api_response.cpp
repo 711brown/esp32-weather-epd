@@ -24,7 +24,10 @@ DeserializationError deserializeNWSCall(Stream &json,
 {
   int i;
   JsonDocument doc;
-  DeserializationError error = deserializeJson(doc, json);
+  JsonDocument filter;
+  filter["features"][0]["properties"]["event"] = true;
+
+  DeserializationError error = deserializeJson(doc, json, DeserializationOption::Filter(filter));
 #if DEBUG_LEVEL >= 1
   Serial.println("[debug] doc.overflowed() : "
                  + String(doc.overflowed()));
